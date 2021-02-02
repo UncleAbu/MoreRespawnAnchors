@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "morerespawnanchors",
+  "version": "1.0",
+  "name": "More Respawn Anchors",
+  "description": "A simple mod that adds more Respawn Anchors to the game.",
+  "authors": [
+    "cominixo"
+  ],
+  "contact": {},
+  "license": "LGPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.cominixo.morerespawnanchors.client.MoreRespawnAnchorsClient"
+    ],
+    "main": [
+      "me.cominixo.morerespawnanchors.MoreRespawnAnchors"
+    ]
+  },
+  "mixins": [
+    "morerespawnanchors.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.0",
+    "fabric": "*",
+    "minecraft": ">=1.16.2"
+  }
+}
