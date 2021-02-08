@@ -4,6 +4,7 @@
   "package": "me.cominixo.morerespawnanchors.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "DispenserBlockMixin",
     "PlayerEntityMixin",
     "PlayerManagerMixin"
   ],
