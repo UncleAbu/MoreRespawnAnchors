@@ -31,7 +31,7 @@ public class EndRespawnAnchorBlockEntityRenderer<T extends BaseRespawnAnchorBloc
     public void render(T endPortalBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
         if (endPortalBlockEntity.getCachedState().get(endPortalBlockEntity.charges) > 0) {
             Matrix4f matrix4f = matrixStack.peek().getModel();
-            this.renderSide(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.method_34589()), 0.0F, 1.0F, getTopYOffset(), getTopYOffset(), 1.0F, 1.0F, 0.0F, 0.0F);
+            this.renderSide(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.method_34589()), 0.1860F, 0.8140F, getTopYOffset(), getTopYOffset(), 0.8140F, 0.8140F, 0.1860F, 0.1860F);
         }
 
     }
