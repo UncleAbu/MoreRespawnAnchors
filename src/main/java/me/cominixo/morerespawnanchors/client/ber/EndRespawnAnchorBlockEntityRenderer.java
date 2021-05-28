@@ -36,13 +36,6 @@ public class EndRespawnAnchorBlockEntityRenderer<T extends BaseRespawnAnchorBloc
 
     }
 
-    /*private void method_23084(T endPortalBlockEntity, float f, float g, Matrix4f matrix4f, VertexConsumer vertexConsumer) {
-        float h = (RANDOM.nextFloat() * 0.5F + 0.1F) * g;
-        float i = (RANDOM.nextFloat() * 0.5F + 0.4F) * g;
-        float j = (RANDOM.nextFloat() * 0.5F + 0.5F) * g;
-        this.renderBlockSide(entity, matrix4f, vertexConsumer, 0.0F, 1.0F, g, g, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
-    }*/
-
     private void renderSide(T entity, Matrix4f model, VertexConsumer vertices, float x1, float x2, float y1, float y2, float z1, float z2, float z3, float z4) {
         if (entity.shouldDrawSide(Direction.UP)) {
             vertices.vertex(model, x1, y1, z1).next();

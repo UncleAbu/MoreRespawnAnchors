@@ -44,6 +44,8 @@ public class MoreRespawnAnchors implements ModInitializer {
             new Identifier("morerespawnanchors", "general"),
             () -> new ItemStack(NETHERITE_RESPAWN_ANCHOR));
 
+    public static boolean respawnAfterCredits = false;
+
     @Override
     public void onInitialize() {
         Registry.register(Registry.BLOCK, new Identifier("morerespawnanchors", "netherite_respawn_anchor"),

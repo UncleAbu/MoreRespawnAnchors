@@ -4,9 +4,11 @@
   "package": "me.cominixo.morerespawnanchors.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ClientPlayNetworkHandlerMixin",
     "DispenserBlockMixin",
     "PlayerEntityMixin",
-    "PlayerManagerMixin"
+    "PlayerManagerMixin",
+    "ServerPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
