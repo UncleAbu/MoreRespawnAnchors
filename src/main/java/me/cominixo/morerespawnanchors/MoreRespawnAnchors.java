@@ -9,6 +9,7 @@ import me.cominixo.morerespawnanchors.block.entity.NetheriteEndRespawnAnchorBloc
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.block.entity.BlockEntityType;
@@ -61,10 +62,10 @@ public class MoreRespawnAnchors implements ModInitializer {
                 new BlockItem(NETHERITE_END_RESPAWN_ANCHOR, new Item.Settings().group(ITEM_GROUP).fireproof()));
 
         END_RESPAWN_ANCHOR_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier("morerespawnanchors", "end_respawn_anchor"),
-                BlockEntityType.Builder.create(EndRespawnAnchorBlockEntity::new, END_RESPAWN_ANCHOR).build(null));
+                FabricBlockEntityTypeBuilder.create(EndRespawnAnchorBlockEntity::new, END_RESPAWN_ANCHOR).build(null));
 
         NETHERITE_END_RESPAWN_ANCHOR_BLOCK_ENTITY = Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier("morerespawnanchors", "netherite_end_respawn_anchor"),
-                BlockEntityType.Builder.create(NetheriteEndRespawnAnchorBlockEntity::new, NETHERITE_END_RESPAWN_ANCHOR).build(null));
+                FabricBlockEntityTypeBuilder.create(NetheriteEndRespawnAnchorBlockEntity::new, NETHERITE_END_RESPAWN_ANCHOR).build(null));
 
         DispenserBlock.registerBehavior(Items.ENDER_PEARL, new FallibleItemDispenserBehavior() {
             public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {

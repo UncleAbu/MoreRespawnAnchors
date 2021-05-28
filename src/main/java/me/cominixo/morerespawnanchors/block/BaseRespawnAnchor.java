@@ -51,7 +51,7 @@ public class BaseRespawnAnchor extends Block {
             return ActionResult.PASS;
         } else if (isChargeItem(itemStack) && canCharge(state)) {
             charge(world, pos, state);
-            if (!player.abilities.creativeMode) {
+            if (!player.getAbilities().creativeMode) {
                 itemStack.decrement(1);
             }
 

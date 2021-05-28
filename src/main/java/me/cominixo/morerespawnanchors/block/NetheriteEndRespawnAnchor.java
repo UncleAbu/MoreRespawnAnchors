@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -47,8 +48,8 @@ public class NetheriteEndRespawnAnchor extends BaseRespawnAnchor implements Bloc
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockView world) {
-        return new NetheriteEndRespawnAnchorBlockEntity(getCharges());
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new NetheriteEndRespawnAnchorBlockEntity(pos, state, getCharges());
     }
 
 

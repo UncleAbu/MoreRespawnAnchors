@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +33,8 @@ public class EndRespawnAnchor extends BaseRespawnAnchor implements BlockEntityPr
     }
 
     @Override
-    public @Nullable BlockEntity createBlockEntity(BlockView world) {
-        return new EndRespawnAnchorBlockEntity(getCharges());
+    public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new EndRespawnAnchorBlockEntity(pos, state, getCharges());
     }
 
 }

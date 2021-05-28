@@ -9,6 +9,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderDispatcher;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.IntProperty;
@@ -21,55 +22,38 @@ import java.util.stream.IntStream;
 
 public class EndRespawnAnchorBlockEntityRenderer<T extends BaseRespawnAnchorBlockEntity> extends EndPortalBlockEntityRenderer<T> {
 
-    private static final Random RANDOM = new Random(31100L);
-    private static final List<RenderLayer> field_21732 = IntStream.range(0, 16).mapToObj((i) -> RenderLayer.getEndPortal(i + 1)).collect(ImmutableList.toImmutableList());
 
-
-
-    public EndRespawnAnchorBlockEntityRenderer(BlockEntityRenderDispatcher blockEntityRenderDispatcher) {
-        super(blockEntityRenderDispatcher);
+    public EndRespawnAnchorBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
+        super(ctx);
     }
 
 
     public void render(T endPortalBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
         if (endPortalBlockEntity.getCachedState().get(endPortalBlockEntity.charges) > 0) {
-            RANDOM.setSeed(31100L);
-            double d = endPortalBlockEntity.getPos().getSquaredDistance(this.dispatcher.camera.getPos(), true);
-            int k = this.method_3592(d);
-            float g = this.method_3594();
             Matrix4f matrix4f = matrixStack.peek().getModel();
-            this.method_23084(endPortalBlockEntity, g, 0.15F, matrix4f, vertexConsumerProvider.getBuffer(field_21732.get(0)));
-
-            for(int l = 1; l < k; ++l) {
-                this.method_23084(endPortalBlockEntity, g, 2.0F / (float)(18 - l), matrix4f, vertexConsumerProvider.getBuffer(field_21732.get(l)));
-            }
+            this.renderSide(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.method_34589()), 0.0F, 1.0F, getTopYOffset(), getTopYOffset(), 1.0F, 1.0F, 0.0F, 0.0F);
         }
-
 
     }
 
-    private void method_23084(T endPortalBlockEntity, float f, float g, Matrix4f matrix4f, VertexConsumer vertexConsumer) {
+    /*private void method_23084(T endPortalBlockEntity, float f, float g, Matrix4f matrix4f, VertexConsumer vertexConsumer) {
         float h = (RANDOM.nextFloat() * 0.5F + 0.1F) * g;
         float i = (RANDOM.nextFloat() * 0.5F + 0.4F) * g;
         float j = (RANDOM.nextFloat() * 0.5F + 0.5F) * g;
-        this.method_23085(endPortalBlockEntity, matrix4f, vertexConsumer, f, f, h, i, j);
-    }
+        this.renderBlockSide(entity, matrix4f, vertexConsumer, 0.0F, 1.0F, g, g, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
+    }*/
 
-    private void method_23085(T endPortalBlockEntity, Matrix4f matrix4f, VertexConsumer vertexConsumer, float h, float i, float n, float o, float p) {
-        if (endPortalBlockEntity.shouldDrawSide(Direction.UP)) {
-            vertexConsumer.vertex(matrix4f, (float) 0.1860, h, (float) 0.8140).color(n, o, p, 1.0F).next();
-            vertexConsumer.vertex(matrix4f, (float) 0.8140, h, (float) 0.8140).color(n, o, p, 1.0F).next();
-            vertexConsumer.vertex(matrix4f, (float) 0.8140, i, (float) 0.1860).color(n, o, p, 1.0F).next();
-            vertexConsumer.vertex(matrix4f, (float) 0.1860, i, (float) 0.1860).color(n, o, p, 1.0F).next();
+    private void renderSide(T entity, Matrix4f model, VertexConsumer vertices, float x1, float x2, float y1, float y2, float z1, float z2, float z3, float z4) {
+        if (entity.shouldDrawSide(Direction.UP)) {
+            vertices.vertex(model, x1, y1, z1).next();
+            vertices.vertex(model, x2, y1, z2).next();
+            vertices.vertex(model, x2, y2, z3).next();
+            vertices.vertex(model, x1, y2, z4).next();
         }
 
     }
 
-    protected int method_3592(double d) {
-        return super.method_3592(d * 3.0D) + 1;
-    }
-
-    protected float method_3594() {
+    protected float getTopYOffset() {
         return 1.0F;
     }
 

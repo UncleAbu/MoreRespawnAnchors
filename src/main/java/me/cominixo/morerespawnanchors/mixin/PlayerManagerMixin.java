@@ -23,11 +23,10 @@ import java.util.Optional;
 public class PlayerManagerMixin {
 
     @Inject(method = "respawnPlayer", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    public void playDepletedSound(ServerPlayerEntity player, boolean alive, CallbackInfoReturnable<ServerPlayerEntity> cir, BlockPos blockPos, float f, boolean bl, ServerWorld serverWorld, Optional optional2, ServerPlayerInteractionManager serverPlayerInteractionManager2, ServerWorld serverWorld2, ServerPlayerEntity serverPlayerEntity) {
+    public void playDepletedSound(ServerPlayerEntity player, boolean alive, CallbackInfoReturnable<ServerPlayerEntity> cir, BlockPos blockPos, float f, boolean bl, ServerWorld serverWorld, Optional optional2, ServerWorld serverWorld2, ServerPlayerEntity serverPlayerEntity) {
 
         if (blockPos != null && serverWorld != null) {
             BlockState blockState = serverWorld2.getBlockState(blockPos);
-
             if (blockState.getBlock() instanceof BaseRespawnAnchor && !alive) {
                 serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.BLOCK_RESPAWN_ANCHOR_DEPLETE, SoundCategory.BLOCKS, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 1.0F));
             }
