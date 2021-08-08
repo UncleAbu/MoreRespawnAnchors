@@ -26,9 +26,14 @@ import net.minecraft.world.World;
 
 public class MoreRespawnAnchors implements ModInitializer {
 
-    public static NetheriteRepawnAnchor NETHERITE_RESPAWN_ANCHOR;
-    public static EndRespawnAnchor END_RESPAWN_ANCHOR;
-    public static NetheriteEndRespawnAnchor NETHERITE_END_RESPAWN_ANCHOR;
+    public static final NetheriteRepawnAnchor NETHERITE_RESPAWN_ANCHOR = new NetheriteRepawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
+            .luminance(BaseRespawnAnchor::getLightLevelFromState));
+
+    public static final EndRespawnAnchor END_RESPAWN_ANCHOR = new EndRespawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
+            .luminance(BaseRespawnAnchor::getLightLevelFromState));
+
+    public static final NetheriteEndRespawnAnchor NETHERITE_END_RESPAWN_ANCHOR = new NetheriteEndRespawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
+            .luminance(BaseRespawnAnchor::getLightLevelFromState));
 
     public static BlockEntityType<EndRespawnAnchorBlockEntity> END_RESPAWN_ANCHOR_BLOCK_ENTITY;
     public static BlockEntityType<NetheriteEndRespawnAnchorBlockEntity> NETHERITE_END_RESPAWN_ANCHOR_BLOCK_ENTITY;
@@ -41,14 +46,6 @@ public class MoreRespawnAnchors implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        NETHERITE_RESPAWN_ANCHOR = new NetheriteRepawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
-                .luminance(BaseRespawnAnchor::getLightLevelFromState));
-
-        END_RESPAWN_ANCHOR = new EndRespawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
-                .luminance(BaseRespawnAnchor::getLightLevelFromState));
-
-        NETHERITE_END_RESPAWN_ANCHOR = new NetheriteEndRespawnAnchor(FabricBlockSettings.of(Material.STONE).requiresTool().strength(50.0F, 1200.0F)
-                .luminance(BaseRespawnAnchor::getLightLevelFromState));
 
         Registry.register(Registry.BLOCK, new Identifier("morerespawnanchors", "netherite_respawn_anchor"),
                 NETHERITE_RESPAWN_ANCHOR);
