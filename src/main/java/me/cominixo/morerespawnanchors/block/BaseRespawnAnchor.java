@@ -20,7 +20,8 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
@@ -31,18 +32,23 @@ import java.util.Random;
 
 public class BaseRespawnAnchor extends Block {
 
+    public static final IntProperty CHARGES = IntProperty.of("charges", 0, 12);
 
     public BaseRespawnAnchor(Settings settings) {
         super(settings);
     }
 
-
-    public IntProperty getCharges() {
-        return IntProperty.of("charges", 0, 4);
-    }
-
     public int getMaxCharges() {
         return 4;
+    }
+
+    public IntProperty getChargesProperty() {
+        return CHARGES;
+    }
+
+    public static int getLightLevelFromState(BlockState state) {
+        final var anchor = (BaseRespawnAnchor) state.getBlock();
+        return getLightLevel(state.get(anchor.getChargesProperty()), 15, anchor.getMaxCharges());
     }
 
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
@@ -56,7 +62,7 @@ public class BaseRespawnAnchor extends Block {
             }
 
             return ActionResult.success(world.isClient);
-        } else if (state.get(getCharges()) == 0) {
+        } else if (state.get(getChargesProperty()) == 0) {
             return ActionResult.PASS;
         } else if (!isDimension(world)) {
             if (!world.isClient) {
@@ -66,10 +72,10 @@ public class BaseRespawnAnchor extends Block {
             return ActionResult.success(world.isClient);
         } else {
             if (!world.isClient) {
-                ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)player;
+                ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) player;
                 if (serverPlayerEntity.getSpawnPointDimension() != world.getRegistryKey() || !serverPlayerEntity.getSpawnPointPosition().equals(pos)) {
                     serverPlayerEntity.setSpawnPoint(world.getRegistryKey(), pos, 0.0F, false, true);
-                    world.playSound(null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound(null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_SET_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     return ActionResult.SUCCESS;
                 }
             }
@@ -83,7 +89,7 @@ public class BaseRespawnAnchor extends Block {
     }
 
     private boolean canCharge(BlockState state) {
-        return state.get(getCharges()) < getMaxCharges();
+        return state.get(getChargesProperty()) < getMaxCharges();
     }
 
     protected boolean isChargeItem(ItemStack stack) {
@@ -91,8 +97,8 @@ public class BaseRespawnAnchor extends Block {
     }
 
     public void charge(World world, BlockPos pos, BlockState state) {
-        world.setBlockState(pos, state.with(getCharges(), state.get(getCharges()) + 1), 3);
-        world.playSound(null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_CHARGE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        world.setBlockState(pos, state.with(getChargesProperty(), state.get(getChargesProperty()) + 1), 3);
+        world.playSound(null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_CHARGE, SoundCategory.BLOCKS, 1.0F, 1.0F);
     }
 
 
@@ -101,11 +107,11 @@ public class BaseRespawnAnchor extends Block {
     }
 
     public static int getLightLevel(int chargeState, int maxLevel, float maxCharges) {
-        return MathHelper.floor(chargeState / maxCharges * (float)maxLevel);
+        return MathHelper.floor(chargeState / maxCharges * (float) maxLevel);
     }
 
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return getLightLevel(state.get(getCharges()), 15, getMaxCharges());
+        return getLightLevel(state.get(getChargesProperty()), 15, getMaxCharges());
     }
 
 
@@ -121,20 +127,20 @@ public class BaseRespawnAnchor extends Block {
                 return pos.equals(explodedPos) && bl2 ? Optional.of(Blocks.WATER.getBlastResistance()) : super.getBlastResistance(explosion, world, pos, blockState, fluidState);
             }
         };
-        world.createExplosion(null, DamageSource.badRespawnPoint(), explosionBehavior, (double)explodedPos.getX() + 0.5D, (double)explodedPos.getY() + 0.5D, (double)explodedPos.getZ() + 0.5D, 5.0F, true, Explosion.DestructionType.DESTROY);
+        world.createExplosion(null, DamageSource.badRespawnPoint(), explosionBehavior, (double) explodedPos.getX() + 0.5D, (double) explodedPos.getY() + 0.5D, (double) explodedPos.getZ() + 0.5D, 5.0F, true, Explosion.DestructionType.DESTROY);
     }
 
     @Environment(EnvType.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        if (state.get(getCharges()) != 0) {
+        if (state.get(getChargesProperty()) != 0) {
             if (random.nextInt(100) == 0) {
-                world.playSound(null, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, (double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_RESPAWN_ANCHOR_AMBIENT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
 
-            double x = (double)pos.getX() + 0.5D + (0.5D - random.nextDouble());
-            double y = (double)pos.getY() + 1.0D;
-            double z = (double)pos.getZ() + 0.5D + (0.5D - random.nextDouble());
-            double velocityY = (double)random.nextFloat() * 0.04D;
+            double x = (double) pos.getX() + 0.5D + (0.5D - random.nextDouble());
+            double y = (double) pos.getY() + 1.0D;
+            double z = (double) pos.getZ() + 0.5D + (0.5D - random.nextDouble());
+            double velocityY = (double) random.nextFloat() * 0.04D;
             world.addParticle(ParticleTypes.REVERSE_PORTAL, x, y, z, 0.0D, velocityY, 0.0D);
         }
     }

@@ -1,14 +1,10 @@
 package me.cominixo.morerespawnanchors.mixin;
 
 import me.cominixo.morerespawnanchors.block.BaseRespawnAnchor;
-import me.cominixo.morerespawnanchors.block.EndRespawnAnchor;
-import me.cominixo.morerespawnanchors.block.NetheriteRepawnAnchor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RespawnAnchorBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -42,10 +38,10 @@ public class PlayerEntityMixin {
 
         else if (block instanceof BaseRespawnAnchor) {
             BaseRespawnAnchor respawnAnchor = (BaseRespawnAnchor) block;
-            if (blockState.get(respawnAnchor.getCharges()) > 0 && respawnAnchor.isDimension(world)) {
+            if (blockState.get(respawnAnchor.getChargesProperty()) > 0 && respawnAnchor.isDimension(world)) {
                 Optional<Vec3d> respawnPosition = RespawnAnchorBlock.findRespawnPosition(EntityType.PLAYER, world, pos);
                 if (!bl2 && respawnPosition.isPresent()) {
-                    world.setBlockState(pos, blockState.with(respawnAnchor.getCharges(), blockState.get(respawnAnchor.getCharges()) - 1), 3);
+                    world.setBlockState(pos, blockState.with(respawnAnchor.getChargesProperty(), blockState.get(respawnAnchor.getChargesProperty()) - 1), 3);
                 }
 
                 cir.setReturnValue(respawnPosition);
