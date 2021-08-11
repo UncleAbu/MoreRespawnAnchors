@@ -11,15 +11,16 @@ import net.minecraft.item.Items;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class NetheriteEndRespawnAnchor extends BaseRespawnAnchor implements BlockEntityProvider {
 
+    public static final IntProperty CHARGES = IntProperty.of("charges", 0, 12);
+
     public NetheriteEndRespawnAnchor(Settings settings) {
         super(settings);
-        setDefaultState(this.getDefaultState().with(getCharges(), 0));
+        setDefaultState(this.getDefaultState().with(getChargesProperty(), 0));
     }
 
     @Override
@@ -33,8 +34,8 @@ public class NetheriteEndRespawnAnchor extends BaseRespawnAnchor implements Bloc
     }
 
     @Override
-    public IntProperty getCharges() {
-        return IntProperty.of("charges", 0, 12);
+    public IntProperty getChargesProperty() {
+        return CHARGES;
     }
 
     @Override
@@ -44,12 +45,12 @@ public class NetheriteEndRespawnAnchor extends BaseRespawnAnchor implements Bloc
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(getCharges());
+        builder.add(getChargesProperty());
     }
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new NetheriteEndRespawnAnchorBlockEntity(pos, state, getCharges());
+        return new NetheriteEndRespawnAnchorBlockEntity(pos, state, getChargesProperty());
     }
 
 

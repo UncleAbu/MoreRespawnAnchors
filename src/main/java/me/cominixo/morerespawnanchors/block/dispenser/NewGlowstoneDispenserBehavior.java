@@ -15,14 +15,14 @@ public class NewGlowstoneDispenserBehavior extends FallibleItemDispenserBehavior
 
     public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
-        BlockPos blockPos = pointer.getBlockPos().offset(direction);
+        BlockPos blockPos = pointer.getPos().offset(direction);
         World world = pointer.getWorld();
         BlockState blockState = world.getBlockState(blockPos);
         Block block = blockState.getBlock();
         this.setSuccess(true);
         if (block instanceof BaseRespawnAnchor && !(block instanceof EndRespawnAnchor) && !(block instanceof NetheriteEndRespawnAnchor)) {
             BaseRespawnAnchor respawnAnchor = (BaseRespawnAnchor) block;
-            if (blockState.get(respawnAnchor.getCharges()) != respawnAnchor.getMaxCharges()) {
+            if (blockState.get(respawnAnchor.getChargesProperty()) != respawnAnchor.getMaxCharges()) {
                 respawnAnchor.charge(world, blockPos, blockState);
                 stack.decrement(1);
             } else {
