@@ -47,7 +47,7 @@ public class BaseRespawnAnchor extends Block {
     }
 
     public static int getLightLevelFromState(BlockState state) {
-        final var anchor = (BaseRespawnAnchor) state.getBlock();
+        final BaseRespawnAnchor anchor = (BaseRespawnAnchor) state.getBlock();
         return getLightLevel(state.get(anchor.getChargesProperty()), 15, anchor.getMaxCharges());
     }
 

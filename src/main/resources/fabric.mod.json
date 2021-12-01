@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "morerespawnanchors",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "name": "More Respawn Anchors",
   "description": "A simple mod that adds more Respawn Anchors to the game.",
   "authors": [
@@ -22,8 +22,8 @@
     "morerespawnanchors.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.10.0",
+    "fabricloader": ">=0.12.0",
     "fabric": "*",
-    "minecraft": ">=1.16.2"
+    "minecraft": "1.18.*"
   }
 }
