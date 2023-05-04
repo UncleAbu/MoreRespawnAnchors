@@ -28,7 +28,7 @@ public class PlayerManagerMixin {
         if (blockPos != null && serverWorld != null) {
             BlockState blockState = serverWorld2.getBlockState(blockPos);
             if (blockState.getBlock() instanceof BaseRespawnAnchor && !alive) {
-                serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.BLOCK_RESPAWN_ANCHOR_DEPLETE, SoundCategory.BLOCKS, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 1.0F));
+                serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.BLOCK_RESPAWN_ANCHOR_DEPLETE, SoundCategory.BLOCKS, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0F, 1.0F, 1));
             }
         }
     }

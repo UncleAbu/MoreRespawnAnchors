@@ -14,7 +14,7 @@ import net.minecraft.client.render.block.entity.EndPortalBlockEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.Random;
