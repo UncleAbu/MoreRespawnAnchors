@@ -12,7 +12,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.FluidTags;
+//import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -29,6 +29,8 @@ import net.minecraft.world.explosion.ExplosionBehavior;
 
 import java.util.Optional;
 import java.util.Random;
+
+import static net.minecraft.tag.FluidTags.WATER;
 
 public class BaseRespawnAnchor extends Block {
 
@@ -121,13 +123,13 @@ public class BaseRespawnAnchor extends Block {
 
     private void explode(World world, final BlockPos explodedPos) {
         world.removeBlock(explodedPos, false);
-        final boolean bl2 = world.getFluidState(explodedPos.up()).isIn(FluidTags.WATER);
+        final boolean bl2 = world.getFluidState(explodedPos.up()).isIn(WATER);
         ExplosionBehavior explosionBehavior = new ExplosionBehavior() {
             public Optional<Float> getBlastResistance(Explosion explosion, BlockView world, BlockPos pos, BlockState blockState, FluidState fluidState) {
                 return pos.equals(explodedPos) && bl2 ? Optional.of(Blocks.WATER.getBlastResistance()) : super.getBlastResistance(explosion, world, pos, blockState, fluidState);
             }
         };
-        world.createExplosion(null, world.getDamageSources().badRespawnPoint(explodedPos.toCenterPos()), explosionBehavior, (double) explodedPos.getX() + 0.5D, (double) explodedPos.getY() + 0.5D, (double) explodedPos.getZ() + 0.5D, 5.0F, true, World.ExplosionSourceType.BLOCK);
+        world.createExplosion(null, DamageSource.badRespawnPoint(), explosionBehavior, (double) explodedPos.getX() + 0.5D, (double) explodedPos.getY() + 0.5D, (double) explodedPos.getZ() + 0.5D, 5.0F, true, Explosion.DestructionType.BREAK);
 
     }
 

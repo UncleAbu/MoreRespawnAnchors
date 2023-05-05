@@ -33,7 +33,7 @@ public class NewGlowstoneDispenserBehavior extends FallibleItemDispenserBehavior
         }
         else if (blockState.isOf(Blocks.RESPAWN_ANCHOR)) {
             if (blockState.get(RespawnAnchorBlock.CHARGES) != 4) {
-                RespawnAnchorBlock.charge(null ,world, blockPos, blockState);
+                RespawnAnchorBlock.charge(world, blockPos, blockState);
                 stack.decrement(1);
             } else {
                 this.setSuccess(false);
